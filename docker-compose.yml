@@ -18,14 +18,14 @@ services:
   # JackTrip Server (self-hosted, bidirezionale)
   # -------------------------
   jacktrip:
-    image: ghcr.io/jacktrip/jacktrip:latest
+    image: jacktrip/jacktrip
     container_name: jacktrip-server
     command: >
       jacktrip -S
-      --udpbaseport 4464
+      --udpbaseport ${JACKTRIP_UDP_PORT:-4464}
       --numchannels 2
       --bitres 16
-      --samplerate 48000
+      --srate 48000
     restart: unless-stopped
     network_mode: host  # Essenziale per latenza minima e flussi UDP full-duplex
 
