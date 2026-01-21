@@ -1,10 +1,4 @@
-version: "3.8"
-
 services:
-
-  # -------------------------
-  # DuckDNS
-  # -------------------------
   duckdns:
     image: linuxserver/duckdns
     container_name: duckdns
@@ -14,9 +8,6 @@ services:
       - LOG_FILE=false
     restart: unless-stopped
 
-  # -------------------------
-  # JackTrip Server (self-hosted, bidirezionale)
-  # -------------------------
   jacktrip:
     image: jacktrip/jacktrip
     container_name: jacktrip-server
@@ -27,46 +18,4 @@ services:
       --bitres 16
       --srate 48000
     restart: unless-stopped
-    network_mode: host  # Essenziale per latenza minima e flussi UDP full-duplex
-
-  # -------------------------
-  # Guacamole - guacd
-  # -------------------------
-  guacd:
-    image: guacamole/guacd
-    container_name: guacd
-    restart: unless-stopped
-
-  # -------------------------
-  # Guacamole - Web App
-  # -------------------------
-  guacamole:
-    image: guacamole/guacamole
-    container_name: guacamole
-    depends_on:
-      - guacd
-      - guac-mysql
-    environment:
-      GUACD_HOSTNAME: guacd
-      MYSQL_HOSTNAME: guac-mysql
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "${GUACAMOLE_PORT:-8080}:8080"
-    restart: unless-stopped
-
-  # -------------------------
-  # Guacamole - MySQL
-  # -------------------------
-  guac-mysql:
-    image: mysql:8.0
-    container_name: guac-mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-      - ./guacamole/data:/var/lib/mysql
-    restart: unless-stopped
+    network_mode: host 
