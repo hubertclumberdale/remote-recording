@@ -12,10 +12,12 @@ services:
     image: jacktrip/jacktrip
     container_name: jacktrip-server
     command: >
-      jacktrip -S
-      --udpbaseport ${JACKTRIP_UDP_PORT:-4464}
+      jacktrip -S -t --hubpatch 4
+      --udpbaseport 4464
       --numchannels 2
       --bitres 16
       --srate 48000
-    restart: unless-stopped
     network_mode: host 
+    restart: unless-stopped
+    privileged: true
+    shm_size: 128m
