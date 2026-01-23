@@ -13,15 +13,16 @@ services:
   jacktrip:
     image: jacktrip/jacktrip
     container_name: jacktrip-server
-    network_mode: host  # JackTrip needs direct network access
-    shm_size: 128m      # Required for JACK shared memory
-    privileged: true    # Required for realtime threads
+    network_mode: host
+    shm_size: 128m
+    privileged: true
     restart: unless-stopped
     environment:
       # JACK server settings
-      - SAMPLE_RATE=48000        # Sample rate (Hz)
-      - BUFFER_SIZE=128          # Frames per period (buffer size)
-      - JACK_OPTS=-d dummy       # Use dummy backend, no audio device needed
+      - SAMPLE_RATE=48000
+      - BUFFER_SIZE=128
+      - JACK_OPTS=-d dummy
 
-      # JackTrip server settings
-      - JACKTRIP_OPTS=-S --hubpatch 4 --numchannels 2 --bitres 16 --udpbaseport 61000
+      # JackTrip server settings using your .env variable
+      - JACKTRIP_OPTS=-S --hubpatch 4 --numchannels 2 --bitres 16 --udpbaseport ${JACKTRIP_UDP_PORT:-61000}
+
