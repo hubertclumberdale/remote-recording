@@ -17,7 +17,9 @@ services:
       --numchannels 2
       --bitres 16
       --srate 48000
-    network_mode: host 
+    network_mode: host
     restart: unless-stopped
     privileged: true
     shm_size: 128m
+    environment:
+      - JACK_OPTS="-d dummy -p 128 -r 48000"
