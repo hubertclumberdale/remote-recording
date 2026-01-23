@@ -23,6 +23,6 @@ services:
       - BUFFER_SIZE=128
       - JACK_OPTS=-d dummy
 
-      # JackTrip server settings using your .env variable
+      # JackTrip server settings
       - JACKTRIP_OPTS=-S --hubpatch 4 --numchannels 2 --bitres 16 --udpbaseport ${JACKTRIP_UDP_PORT:-61000}
 
