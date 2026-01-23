@@ -1,3 +1,5 @@
+version: "3.8"
+
 services:
   duckdns:
     image: linuxserver/duckdns
@@ -11,13 +13,15 @@ services:
   jacktrip:
     image: jacktrip/jacktrip
     container_name: jacktrip-server
-    command: >
-      jacktrip -S --hubpatch 4
-      --udpbaseport ${JACKTRIP_UDP_PORT:-61000}
-      --numchannels 2
-      --bitres 16
-      --srate 48000
-    network_mode: host 
+    network_mode: host  # JackTrip needs direct network access
+    shm_size: 128m      # Required for JACK shared memory
+    privileged: true    # Required for realtime threads
     restart: unless-stopped
-    privileged: true
-    shm_size: 128m
+    environment:
+      # JACK server settings
+      - SAMPLE_RATE=48000        # Sample rate (Hz)
+      - BUFFER_SIZE=128          # Frames per period (buffer size)
+      - JACK_OPTS=-d dummy       # Use dummy backend, no audio device needed
+
+      # JackTrip server settings
+      - JACKTRIP_OPTS=-S --hubpatch 4 --numchannels 2 --bitres 16 --udpbaseport 61000
