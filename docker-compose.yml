@@ -12,7 +12,7 @@ services:
     image: jacktrip/jacktrip
     container_name: jacktrip-server
     command: >
-      jacktrip -S -t --hubpatch 4
+      jacktrip -S --hubpatch 4
       --udpbaseport ${JACKTRIP_UDP_PORT:-61000}
       --numchannels 2
       --bitres 16
